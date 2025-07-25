@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bill's Blog • Mon Univers Personnel</title>
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: rgba(30, 41, 59, 0.8);
+      --text-primary: #ffffff;
+      --text-secondary: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent: #3b82f6;
+      --accent-glow: rgba(59, 130, 246, 0.3);
+      --card-border: rgba(59, 130, 246, 0.2);
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.9);
+      --text-primary: #1e293b;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --card-border: rgba(59, 130, 246, 0.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .header {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 1.5rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .blog-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--accent-glow);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent);
+      color: white;
+    }
+
+    .theme-toggle {
+      background: var(--bg-card);
+      border: 1px solid var(--card-border);
+      color: var(--text-secondary);
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .theme-toggle:hover {
+      background: var(--accent);
+      color: white;
+    }
+
+    /* Container */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Profile Section */
+    .profile-section {
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      border: 1px solid var(--card-border);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), #8b5cf6, #06b6d4);
+    }
+
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid var(--accent);
+      margin: 0 auto 1.5rem;
+      object-fit: cover;
+      box-shadow: 0 10px 30px var(--accent-glow);
+    }
+
+    .profile-name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .profile-pseudo {
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .profile-bio {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .overthinker-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin: 1rem 0;
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    }
+
+    /* Post Creator */
+    .post-creator {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      border: 1px solid var(--card-border);
+    }
+
+    .post-creator h3 {
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      padding: 1rem;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .image-upload {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .image-upload input[type="file"] {
+      display: none;
+    }
+
+    .image-upload-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.2rem;
+      background: var(--bg-secondary);
+      border: 2px dashed var(--card-border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      transition: all 0.3s ease;
+    }
+
+    .image-upload-label:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .image-preview {
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .image-preview img {
+      max-width: 200px;
+      border-radius: 8px;
+      border: 2px solid var(--card-border);
+    }
+
+    /* Posts Grid */
+    .posts-section h2 {
+      color: var(--text-primary);
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+    }
+
+    .posts-grid {
+      display: grid;
+      gap: 2rem;
+    }
+
+    /* Post Card */
+    .post-card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid var(--card-border);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .post-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(59, 130, 246, 0.15);
+    }
+
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .post-date {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .post-type {
+      background: var(--accent);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .post-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    .post-image {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      border: 2px solid var(--card-border);
+    }
+
+    .post-content {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .reaction-btn {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text-secondary);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .reaction-btn:hover {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .reaction-btn.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .delete-btn {
+      background: #dc2626;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.3s ease;
+    }
+
+    .delete-btn:hover {
+      background: #b91c1c;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--text-muted);
+    }
+
+    .empty-state .icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      .header {
+        padding: 1rem;
+      }
+      
+      .nav-buttons {
+        gap: 0.5rem;
+      }
+      
+      .btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .post-card {
+      animation: fadeInUp 0.5s ease forwards;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <h1 class="blog-title">Bill's Blog</h1>
+      <div class="nav-buttons">
+        <a href="bill.html" class="btn btn-secondary">← Portfolio</a>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Profile Section -->
+    <section class="profile-section">
+      <img src="image/WhatsApp Image 2025-07-24 at 22.22.03_541575c0.jpg" alt="Getchky Pierre" class="profile-avatar">
+      <h2 class="profile-name">Getchky Pierre</h2>
+      <p class="profile-pseudo">@Bill</p>
+      <div class="overthinker-badge">🧠 Overthinker Officiel</div>
+      <p class="profile-bio">
+        Développeur fullstack, gamer passionné et runner invétéré. 
+        Mon cerveau ne s'arrête jamais : je pense au code en courant, 
+        j'analyse chaque ligne comme un stratège, et je transforme mes pensées infinies 
+        en solutions créatives. Bienvenue dans mon univers mental où chaque détail compte 
+        et où l'overthinking devient ma force créative. 🎮💻🏃‍♂️
+      </p>
+    </section>
+
+    <!-- Post Creator -->
+    <section class="post-creator">
+      <h3>📝 Nouveau Post</h3>
+      <form id="post-form">
+        <div class="form-group">
+          <label class="form-label" for="post-title">Titre</label>
+          <input type="text" id="post-title" class="form-input" placeholder="Que veux-tu partager aujourd'hui ?" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="post-content">Contenu</label>
+          <textarea id="post-content" class="form-textarea" placeholder="Raconte ton histoire, tes réflexions d'overthinker, tes aventures..." required></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Photo (optionnelle)</label>
+          <div class="image-upload">
+            <input type="file" id="post-image" accept="image/*">
+            <label for="post-image" class="image-upload-label">
+              <span>📷</span>
+              <span>Ajouter une photo</span>
+            </label>
+          </div>
+          <div class="image-preview" id="image-preview">
+            <img id="preview-img" src="" alt="Aperçu">
+          </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">
+          <span>✨</span>
+          Publier mon moment
+        </button>
+      </form>
+    </section>
+
+    <!-- Posts Section -->
+    <section class="posts-section">
+      <h2>🌟 Mes Moments de Vie</h2>
+      <div class="posts-grid" id="posts-container">
+        <!-- Posts will be dynamically inserted here -->
+      </div>
+      
+      <!-- Empty State -->
+      <div class="empty-state" id="empty-state">
+        <div class="icon">📱</div>
+        <h3>Aucun post pour le moment</h3>
+        <p>Commence à partager tes moments et réflexions !</p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Theme Toggle
+    function toggleTheme() {
+      const body = document.body;
+      const themeIcon = document.getElementById('theme-icon');
+      
+      if (body.getAttribute('data-theme') === 'light') {
+        body.removeAttribute('data-theme');
+        themeIcon.textContent = '🌙';
+        localStorage.setItem('blog-theme', 'dark');
+      } else {
+        body.setAttribute('data-theme', 'light');
+        themeIcon.textContent = '☀️';
+        localStorage.setItem('blog-theme', 'light');
+      }
+    }
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('blog-theme');
+    if (savedTheme === 'light') {
+      document.body.setAttribute('data-theme', 'light');
+      document.getElementById('theme-icon').textContent = '☀️';
+    }
+
+    // Blog functionality
+    const postForm = document.getElementById('post-form');
+    const postsContainer = document.getElementById('posts-container');
+    const emptyState = document.getElementById('empty-state');
+    const imageInput = document.getElementById('post-image');
+    const imagePreview = document.getElementById('image-preview');
+    const previewImg = document.getElementById('preview-img');
+
+    // Image preview
+    imageInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          previewImg.src = e.target.result;
+          imagePreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        imagePreview.style.display = 'none';
+      }
+    });
+
+    // Load posts from localStorage
+    function loadPosts() {
+      const posts = JSON.parse(localStorage.getItem('bill-blog-posts') || '[]');
+      
+      if (posts.length === 0) {
+        emptyState.style.display = 'block';
+        postsContainer.innerHTML = '';
+        return;
+      }
+      
+      emptyState.style.display = 'none';
+      postsContainer.innerHTML = '';
+      
+      posts.forEach((post, index) => {
+        createPostElement(post, index);
+      });
+    }
+
+    // Create post element
+    function createPostElement(post, index) {
+      const postElement = document.createElement('div');
+      postElement.className = 'post-card';
+      postElement.style.animationDelay = `${index * 0.1}s`;
+      
+      postElement.innerHTML = `
+        <div class="post-header">
+          <span class="post-date">${post.date}</span>
+          <span class="post-type">${post.type}</span>
+        </div>
+        <h3 class="post-title">${post.title}</h3>
+        ${post.image ? `<img src="${post.image}" alt="Post image" class="post-image">` : ''}
+        <div class="post-content">${post.content.replace(/\n/g, '<br>')}</div>
+        <div class="post-actions">
+          <button class="reaction-btn ${post.reactions.love ? 'active' : ''}" onclick="toggleReaction(${post.id}, 'love')">
+            ❤️ <span>${post.reactions.love || 0}</span>
+          </button>
+          <button class="reaction-btn ${post.reactions.fire ? 'active' : ''}" onclick="toggleReaction(${post.id}, 'fire')">
+            🔥 <span>${post.reactions.fire || 0}</span>
+          </button>
+          <button class="reaction-btn ${post.reactions.mind ? 'active' : ''}" onclick="toggleReaction(${post.id}, 'mind')">
+            🤯 <span>${post.reactions.mind || 0}</span>
+          </button>
+          <button class="delete-btn" onclick="deletePost(${post.id})">🗑️ Supprimer</button>
+        </div>
+      `;
+      
+      postsContainer.appendChild(postElement);
+    }
+
+    // Toggle reaction
+    function toggleReaction(postId, reactionType) {
+      const posts = JSON.parse(localStorage.getItem('bill-blog-posts') || '[]');
+      const post = posts.find(p => p.id === postId);
+      
+      if (post) {
+        if (!post.reactions[reactionType]) {
+          post.reactions[reactionType] = 0;
+        }
+        post.reactions[reactionType]++;
+        
+        localStorage.setItem('bill-blog-posts', JSON.stringify(posts));
+        loadPosts();
+      }
+    }
+
+    // Delete post
+    function deletePost(postId) {
+      if (confirm('Êtes-vous sûr de vouloir supprimer ce post ?')) {
+        const posts = JSON.parse(localStorage.getItem('bill-blog-posts') || '[]');
+        const filteredPosts = posts.filter(p => p.id !== postId);
+        localStorage.setItem('bill-blog-posts', JSON.stringify(filteredPosts));
+        loadPosts();
+      }
+    }
+
+    // Submit new post
+    postForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const title = document.getElementById('post-title').value.trim();
+      const content = document.getElementById('post-content').value.trim();
+      const imageFile = imageInput.files[0];
+      
+      if (!title || !content) return;
+      
+      const post = {
+        id: Date.now(),
+        title: title,
+        content: content,
+        date: new Date().toLocaleDateString('fr-FR', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        type: imageFile ? '📸 Photo' : '💭 Pensée',
+        image: null,
+        reactions: {}
+      };
+      
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          post.image = e.target.result;
+          savePost(post);
+        };
+        reader.readAsDataURL(imageFile);
+      } else {
+        savePost(post);
+      }
+    });
+
+    function savePost(post) {
+      const posts = JSON.parse(localStorage.getItem('bill-blog-posts') || '[]');
+      posts.unshift(post); // Add to beginning
+      localStorage.setItem('bill-blog-posts', JSON.stringify(posts));
+      
+      // Reset form
+      postForm.reset();
+      imagePreview.style.display = 'none';
+      
+      // Reload posts
+      loadPosts();
+      
+      // Show success message
+      showNotification('✅ Post publié avec succès !');
+    }
+
+    // Show notification
+    function showNotification(message) {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: var(--success);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        z-index: 1000;
+        animation: slideInRight 0.3s ease;
+      `;
+      notification.textContent = message;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
+    }
+
+    // Add sample posts if none exist
+    function addSamplePosts() {
+      const posts = JSON.parse(localStorage.getItem('bill-blog-posts') || '[]');
+      
+      if (posts.length === 0) {
+        const samplePosts = [
+          {
+            id: 1,
+            title: "Premier post sur mon blog !",
+            content: "Je lance enfin mon espace personnel ! En tant qu'overthinker officiel, j'ai réfléchi à ce blog pendant des semaines. Ici je vais partager mes moments de dev, mes sessions de running, mes découvertes gaming et toutes mes réflexions infinies. Bienvenue dans mon univers mental ! 🧠✨",
+            date: "25 juillet 2025, 10:30",
+            type: "💭 Pensée",
+            image: null,
+            reactions: { love: 1, fire: 2 }
+          },
+          {
+            id: 2,
+            title: "Session code nocturne",
+            content: "2h du matin, je code encore... Mon cerveau d'overthinker ne s'arrête jamais ! En train de peaufiner une architecture API qui me trotte dans la tête depuis des jours. La nuit, c'est là que mes meilleures idées naissent. Café ☕ + code 💻 + musique 🎵 = combo parfait !",
+            date: "24 juillet 2025, 02:15",
+            type: "💭 Pensée",
+            image: null,
+            reactions: { mind: 3, fire: 1 }
+          }
+        ];
+        
+        localStorage.setItem('bill-blog-posts', JSON.stringify(samplePosts));
+      }
+    }
+
+    // Add slide animation CSS
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Initialize
+    addSamplePosts();
+    loadPosts();
+
+    // Make functions global
+    window.toggleReaction = toggleReaction;
+    window.deletePost = deletePost;
+  </script>
+</body>
+</html>
